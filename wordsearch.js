@@ -1,19 +1,35 @@
-const trans = require("./transpose");
-const wordSearch = (letters, word) => {
-    const horizontalJoin = letters.map(ls => ls.join(""))
-    for (l of horizontalJoin) {
-        if (l.includes(word)) {return true}
+//Pair Programming with @jabrilg & @wootang9
+const wordSearch = (letters, word) => { 
+    let wordLength = word.length;
+    let gridLength = letters.length;
+    for(let row of letters) {
+        for (let i = 0; i < gridLength; i++) {
+            let testString = row.slice(i, wordLength).join('');
+            if (testString === word) {
+                return true;
+            }
+        }
     }
-    let newletters = trans(letters);
-        console.log(newLetters);
-
-    let verticalJoin = newLetters.map(ls => ls.join(""));
-        console.log(verticalJoin);
-
-    for (i of verticalJoin) {
-        if (i.includes(word))
-        {return true}
+    flippedArray = transpose(letters);
+    for(let row of flippedArray) {
+        for (let i = 0; i < gridLength; i++) {
+            let testString = row.slice(i, wordLength).join('');
+            if (testString === word) {
+                return true;
+            }
+        }
     }
-    return false
+    return false;
 }
-module.exports = wordSearch
+const transpose = function(matrix) {
+    let result = [];
+    let rowLength = matrix[0].length;
+    for (let i = 0; i < rowLength; i++) {
+      result[i] = [];
+      for (const row of matrix) {
+        result[i].push(row[i]);
+      }
+    }
+    return result;
+  };
+module.exports = wordSearch;
